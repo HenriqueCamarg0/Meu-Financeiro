@@ -8,7 +8,7 @@ import { userService, Usuario } from '../../services/userService';
 import { colors, typography, spacing } from '../../utils/designSystem';
 
 interface UserRegistrationProps {
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 export default function UserRegistration({ onClose }: UserRegistrationProps) {
@@ -32,9 +32,11 @@ export default function UserRegistration({ onClose }: UserRegistrationProps) {
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
         <Text style={styles.title}>Configurar Usuários</Text>
-        <TouchableOpacity onPress={onClose}>
-          <Ionicons name="close-circle" size={32} color={colors.gray400} />
-        </TouchableOpacity>
+        {onClose && (
+          <TouchableOpacity onPress={onClose}>
+            <Ionicons name="close-circle" size={32} color={colors.gray400} />
+          </TouchableOpacity>
+        )}
       </View>
 
       <UserForm aoSucesso={() => setRefreshKey(k => k + 1)} />

@@ -39,6 +39,8 @@ export default function CategoryList({ refreshKey, aoAtualizar }: ListProps) {
 
   // Busca as categorias sempre que a tela abrir ou refreshKey mudar
   useEffect(() => {
+    // Reset do estado de abertura quando recarregar
+    setAberto(null);
     categoriaService
       .listarTodas()
       .then(setCategorias)

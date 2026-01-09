@@ -57,7 +57,7 @@ export default function Footer(props: any) {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.tabItem} onPress={props.onAbrirMetas}>
+        <TouchableOpacity style={styles.tabItem} onPress={props.onIrParaMetas}>
           <Ionicons 
             name="bar-chart-outline" 
             size={24} 
@@ -72,7 +72,7 @@ export default function Footer(props: any) {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.tabItem} onPress={props.onAbrirMais}>
+        <TouchableOpacity style={styles.tabItem} onPress={props.onIrParaMais}>
           <Ionicons 
             name="ellipsis-horizontal" 
             size={24} 
