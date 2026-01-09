@@ -1,36 +1,37 @@
 import { StyleSheet } from 'react-native';
+import { colors, spacing, typography } from '../../utils/designSystem';
 
 export const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
-    padding: 20,
+    backgroundColor: colors.surface,
+    padding: spacing.xl,
     borderRadius: 20,
     alignItems: 'center',
     width: '100%',
     elevation: 2,
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
   },
   mesSelector: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: spacing.xl,
   },
   mesText: {
-    fontSize: 16,
-    color: '#333',
-    fontWeight: '600',
-    marginRight: 8,
+    fontSize: typography.sizes.base,
+    color: colors.text,
+    fontWeight: typography.weights.semibold,
+    marginRight: spacing.sm,
   },
   saldoArea: {
     width: '100%',
-    marginBottom: 16,
+    marginBottom: spacing.lg,
     alignItems: 'flex-start',
   },
   labelSaldo: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: typography.sizes.xs,
+    color: colors.textSecondary,
     marginBottom: 4,
   },
   valorPrincipalRow: {
@@ -38,15 +39,15 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   valorSaldo: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#111',
+    fontSize: typography.sizes['3xl'],
+    fontWeight: typography.weights.bold,
+    color: colors.text,
   },
   resumoRow: {
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-between',
-    marginTop: 12,
+    marginTop: spacing.md,
   },
   resumoItem: {
     flexDirection: 'row',
@@ -58,14 +59,14 @@ export const styles = StyleSheet.create({
     borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 8,
+    marginRight: spacing.sm,
   },
   labelResumo: {
-    fontSize: 12,
-    color: '#666',
+    fontSize: typography.sizes.xs,
+    color: colors.textSecondary,
   },
   valorResumo: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: typography.sizes.sm,
+    fontWeight: typography.weights.semibold,
   },
 });

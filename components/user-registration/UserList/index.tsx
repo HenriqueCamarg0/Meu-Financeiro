@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { styles } from '../styles';
 import { userService, Usuario } from '../../../services/userService';
+import { colors, typography, spacing } from '../../../utils/designSystem';
 
 interface UserListProps {
   usuarios: Usuario[];
@@ -41,10 +41,10 @@ export default function UserList({ usuarios, atualizar }: UserListProps) {
             
             <View style={[
               styles.badge, 
-              { backgroundColor: user.ativo ? '#dcfce7' : '#fee2e2' }
+              { backgroundColor: user.ativo ? colors.success + '20' : colors.error + '20' }
             ]}>
               <Text style={{ 
-                color: user.ativo ? '#166534' : '#991b1b', 
+                color: user.ativo ? colors.success : colors.error, 
                 fontSize: 10, 
                 fontWeight: 'bold' 
               }}>
@@ -58,7 +58,7 @@ export default function UserList({ usuarios, atualizar }: UserListProps) {
               <Ionicons 
                 name={user.defaultValue ? "star" : "star-outline"} 
                 size={22} 
-                color={user.defaultValue ? "#eab308" : "#9ca3af"} 
+                color={user.defaultValue ? colors.warning : colors.gray400} 
               />
             </TouchableOpacity>
             
@@ -66,7 +66,7 @@ export default function UserList({ usuarios, atualizar }: UserListProps) {
               <Ionicons 
                 name={user.ativo ? "toggle" : "toggle-outline"} 
                 size={28} 
-                color="#8b5cf6" 
+                color={colors.primary} 
               />
             </TouchableOpacity>
 
@@ -76,17 +76,51 @@ export default function UserList({ usuarios, atualizar }: UserListProps) {
                 { text: "Sim", onPress: () => userService.excluir(user.userId).then(atualizar) }
               ]);
             }}>
-              <Ionicons name="trash-outline" size={22} color="#ef4444" />
+              <Ionicons name="trash-outline" size={22} color={colors.error} />
             </TouchableOpacity>
           </View>
         </View>
       ))}
 
       {(!usuarios || usuarios.length === 0) && (
-        <Text style={{ textAlign: 'center', color: '#999', marginTop: 20 }}>
+        <Text style={styles.emptyText}>
           Nenhum usuário encontrado.
         </Text>
       )}
     </ScrollView>
   );
 }
+
+const styles = {
+  itemUsuario: {
+    flexDirection: 'row' as const,
+    alignItems: 'center' as const,
+    backgroundColor: colors.surface,
+    padding: spacing.lg,
+    borderRadius: 8,
+    marginBottom: spacing.sm,
+    borderWidth: 1,
+    borderColor: colors.gray200,
+  },
+  usuarioTexto: {
+    ...typography.styles.body,
+    color: colors.text,
+  },
+  badge: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: 12,
+    marginLeft: spacing.sm,
+  },
+  rowAcoes: {
+    flexDirection: 'row' as const,
+    gap: spacing.md,
+    marginLeft: 'auto' as const,
+  },
+  emptyText: {
+    textAlign: 'center' as const,
+    color: colors.textSecondary,
+    marginTop: spacing.xl,
+    ...typography.styles.body,
+  },
+};

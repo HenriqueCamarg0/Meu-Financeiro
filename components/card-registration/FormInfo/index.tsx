@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { colors, spacing, typography } from '../../../utils/designSystem';
 
 export default function FormInfo({ onDataChange, valores }: any) {
   return (
@@ -30,8 +31,8 @@ export default function FormInfo({ onDataChange, valores }: any) {
 }
 
 const styles = StyleSheet.create({
-  container: { marginTop: 10 },
-  field: { marginBottom: 20 },
-  label: { fontSize: 14, fontWeight: 'bold', color: '#333', marginBottom: 8 },
-  input: { borderWidth: 1, borderColor: '#ddd', borderRadius: 8, padding: 12, fontSize: 16, backgroundColor: '#fff' }
+  container: { marginTop: spacing.sm },
+  field: { marginBottom: spacing.xl },
+  label: { fontSize: typography.sizes.sm, fontWeight: typography.weights.bold, color: colors.text, marginBottom: spacing.sm },
+  input: { borderWidth: 1, borderColor: colors.gray300, borderRadius: 8, padding: spacing.md, fontSize: typography.sizes.base, backgroundColor: colors.surface }
 });

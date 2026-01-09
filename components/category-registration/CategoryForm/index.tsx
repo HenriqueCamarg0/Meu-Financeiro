@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Switch, Alert, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { styles } from '../styles';
 import { categoriaService, subCategoriaService } from '../../../services/categoriaService';
+import { colors, typography, spacing, components, utils } from '../../../utils/designSystem';
 
 export default function CategoryForm({ aoSalvar }: { aoSalvar: () => void }) {
   const [nomeCat, setNomeCat] = useState('');
@@ -53,35 +53,52 @@ export default function CategoryForm({ aoSalvar }: { aoSalvar: () => void }) {
   }
 
   return (
-    <View style={{ marginBottom: 20 }}>
-      <Text style={styles.label}>Nome da Categoria</Text>
-      <TextInput 
-        style={[styles.input, { padding: 10 }]} // Ajuste de padding para visibilidade
-        value={nomeCat} 
-        onChangeText={setNomeCat} 
-        placeholder="Ex: Moradia" 
-      />
+    <View style={[components.card, { marginBottom: spacing.xl }]}>
+      <Text style={[typography.styles.h4, { marginBottom: spacing.lg, color: colors.gray800 }]}>
+        Nova Categoria
+      </Text>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 15 }}>
+      <View style={{ marginBottom: spacing.lg }}>
+        <Text style={[typography.styles.label, { marginBottom: spacing.sm }]}>
+          Nome da Categoria <Text style={{ color: colors.error }}>*</Text>
+        </Text>
+        <TextInput 
+          style={components.input}
+          value={nomeCat} 
+          onChangeText={setNomeCat} 
+          placeholder="Ex: Moradia, Alimentação, Transporte..." 
+          placeholderTextColor={colors.gray400}
+        />
+      </View>
+
+      <View style={[components.row, { marginBottom: spacing.lg }]}>
         <Switch 
           value={querSub} 
           onValueChange={setQuerSub} 
-          trackColor={{ true: '#8b5cf6', false: '#CCC' }} 
+          trackColor={{ true: colors.primary, false: colors.gray300 }}
+          thumbColor={querSub ? colors.white : colors.gray400}
         />
-        <Text style={{ marginLeft: 10, color: '#666' }}>Adicionar subcategorias?</Text>
+        <Text style={[typography.styles.body, { color: colors.gray700 }]}>
+          Adicionar subcategorias?
+        </Text>
       </View>
 
       {querSub && (
-        <View style={{ marginBottom: 15 }}>
-          <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+        <View style={{ marginBottom: spacing.lg }}>
+          <Text style={[typography.styles.label, { marginBottom: spacing.sm }]}>
+            Subcategorias
+          </Text>
+          
+          <View style={[components.row, { gap: spacing.sm, marginBottom: spacing.md }]}>
             <TextInput 
-              style={[styles.input, { flex: 1, marginBottom: 0, padding: 10 }]} 
+              style={[components.input, { flex: 1 }]}
               value={inputSub} 
               onChangeText={setInputSub} 
-              placeholder="Ex: Aluguel" 
+              placeholder="Ex: Aluguel, Condomínio..." 
+              placeholderTextColor={colors.gray400}
             />
             <TouchableOpacity 
-              style={styles.btnAdicionarSub}
+              style={[components.buttonPrimary, components.buttonSmall, { paddingHorizontal: spacing.md }]}
               onPress={() => {
                 if(inputSub.trim()){
                   setListaSubs([...listaSubs, inputSub.trim()]);
@@ -89,17 +106,32 @@ export default function CategoryForm({ aoSalvar }: { aoSalvar: () => void }) {
                 }
               }}
             >
-              <Ionicons name="add" size={24} color="#FFF" />
+              <Ionicons name="add" size={20} color={colors.white} />
             </TouchableOpacity>
           </View>
 
           {listaSubs.length > 0 && (
-            <View style={{ marginTop: 10, backgroundColor: '#f9fafb', borderRadius: 8, padding: 5 }}>
+            <View style={[components.card, { backgroundColor: colors.gray50, padding: spacing.md }]}>
+              <Text style={[typography.styles.caption, { marginBottom: spacing.sm, color: colors.gray600 }]}>
+                {listaSubs.length} subcategoria{listaSubs.length > 1 ? 's' : ''} adicionada{listaSubs.length > 1 ? 's' : ''}:
+              </Text>
               {listaSubs.map((item, idx) => (
-                <View key={idx} style={styles.tagSub}>
-                  <Text style={{ flex: 1, color: '#333' }}>• {item}</Text>
-                  <TouchableOpacity onPress={() => setListaSubs(listaSubs.filter((_, i) => i !== idx))}>
-                    <Ionicons name="close-circle" size={20} color="#ef4444" />
+                <View key={idx} style={[components.row, { 
+                  backgroundColor: colors.white, 
+                  padding: spacing.sm, 
+                  borderRadius: 6, 
+                  marginBottom: spacing.xs,
+                  borderWidth: 1,
+                  borderColor: colors.gray200,
+                }]}>
+                  <Text style={[typography.styles.bodySmall, { flex: 1, color: colors.gray700 }]}>
+                    • {item}
+                  </Text>
+                  <TouchableOpacity 
+                    onPress={() => setListaSubs(listaSubs.filter((_, i) => i !== idx))}
+                    style={{ padding: spacing.xs }}
+                  >
+                    <Ionicons name="close-circle" size={18} color={colors.error} />
                   </TouchableOpacity>
                 </View>
               ))}
@@ -109,14 +141,28 @@ export default function CategoryForm({ aoSalvar }: { aoSalvar: () => void }) {
       )}
 
       <TouchableOpacity 
-        style={[styles.btnSalvar, { opacity: carregando ? 0.7 : 1 }]} 
+        style={[
+          components.buttonPrimary, 
+          carregando && components.loading,
+          !nomeCat.trim() && components.disabled
+        ]} 
         onPress={handleSalvarTudo} 
-        disabled={carregando}
+        disabled={carregando || !nomeCat.trim()}
       >
         {carregando ? (
-          <ActivityIndicator color="#FFF" />
+          <>
+            <ActivityIndicator color={colors.white} size="small" />
+            <Text style={[typography.styles.button, { color: colors.white }]}>
+              Salvando...
+            </Text>
+          </>
         ) : (
-          <Text style={styles.btnSalvarText}>Salvar Categoria</Text>
+          <>
+            <Ionicons name="save-outline" size={20} color={colors.white} />
+            <Text style={[typography.styles.button, { color: colors.white }]}>
+              Salvar Categoria
+            </Text>
+          </>
         )}
       </TouchableOpacity>
     </View>

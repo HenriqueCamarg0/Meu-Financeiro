@@ -6,27 +6,28 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  ActivityIndicator, 
+  ActivityIndicator,
 } from "react-native";
+import { colors, typography, spacing } from "../../../utils/designSystem";
 
 interface ResumoProps {
   visible: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  loading: boolean; // Adicionado para resolver o erro ts(2322)
+  loading: boolean;
   dados: {
     descricao: string;
-    nomeCompleto: string; 
+    nomeCompleto: string;
     valorTotal: number;
     isParcelado: boolean;
     qtdParcelas: number;
     valorParcela: number;
-    data: string; 
+    data: string;
     categoria: string;
     subcategoria: string;
     metodoPagamento: string;
-    nomeCartao?: string; 
-    digitosCartao?: string; 
+    nomeCartao?: string;
+    digitosCartao?: string;
   };
 }
 
@@ -38,7 +39,6 @@ export default function ResumoNotaFiscal({
   dados,
 }: ResumoProps) {
   
-  // Função de segurança para formatar moeda
   const formatarMoeda = (valor: number | undefined) => {
     if (valor === undefined || valor === null) return "R$ 0,00";
     return valor.toLocaleString("pt-BR", {
@@ -60,21 +60,15 @@ export default function ResumoNotaFiscal({
             <View style={styles.section}>
               <Text style={styles.resumoLabel}>
                 DESCRIÇÃO:{" "}
-                <Text style={styles.resumoBold}>
-                  {dados.descricao || "Não informada"}
-                </Text>
+                <Text style={styles.resumoBold}>{dados.descricao || "Não informada"}</Text>
               </Text>
               <Text style={styles.resumoLabel}>
                 DATA:{" "}
-                <Text style={styles.resumoBold}>
-                  {dados.data || "00/00/0000"}
-                </Text>
+                <Text style={styles.resumoBold}>{dados.data || "00/00/0000"}</Text>
               </Text>
               <Text style={styles.resumoLabel}>
                 RESPONSÁVEL:{" "}
-                <Text style={styles.resumoBold}>
-                  {dados.nomeCompleto || "Não selecionado"}
-                </Text>
+                <Text style={styles.resumoBold}>{dados.nomeCompleto || "Não selecionado"}</Text>
               </Text>
             </View>
 
@@ -85,9 +79,7 @@ export default function ResumoNotaFiscal({
             <View style={styles.section}>
               <Text style={styles.resumoLabel}>
                 CATEGORIA:{" "}
-                <Text style={styles.resumoBold}>
-                  {dados.categoria} / {dados.subcategoria}
-                </Text>
+                <Text style={styles.resumoBold}>{dados.categoria} / {dados.subcategoria}</Text>
               </Text>
               <Text style={styles.resumoLabel}>
                 PAGAMENTO:{" "}
@@ -103,9 +95,7 @@ export default function ResumoNotaFiscal({
               ) : null}
               <Text style={styles.resumoLabel}>
                 TIPO:{" "}
-                <Text style={styles.resumoBold}>
-                  {dados.isParcelado ? "Parcelado" : "À Vista"}
-                </Text>
+                <Text style={styles.resumoBold}>{dados.isParcelado ? "Parcelado" : "À Vista"}</Text>
               </Text>
               {dados.isParcelado && (
                 <Text style={styles.resumoLabel}>
@@ -123,16 +113,14 @@ export default function ResumoNotaFiscal({
 
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>TOTAL:</Text>
-              <Text style={styles.totalValue}>
-                {formatarMoeda(dados.valorTotal)}
-              </Text>
+              <Text style={styles.totalValue}>{formatarMoeda(dados.valorTotal)}</Text>
             </View>
 
             <View style={styles.buttonRow}>
               <TouchableOpacity 
                 style={styles.btnCorrigir} 
                 onPress={onClose}
-                disabled={loading} // Bloqueia se estiver enviando
+                disabled={loading}
               >
                 <Text style={styles.txtCorrigir}>CORRIGIR</Text>
               </TouchableOpacity>
@@ -140,10 +128,10 @@ export default function ResumoNotaFiscal({
               <TouchableOpacity 
                 style={[styles.btnConfirmar, loading && { opacity: 0.7 }]} 
                 onPress={onConfirm}
-                disabled={loading} // Bloqueia para evitar cliques duplos
+                disabled={loading}
               >
                 {loading ? (
-                  <ActivityIndicator color="#FFF" size="small" />
+                  <ActivityIndicator color={colors.white} size="small" />
                 ) : (
                   <Text style={styles.txtConfirmar}>CONFIRMAR</Text>
                 )}
@@ -157,61 +145,55 @@ export default function ResumoNotaFiscal({
 }
 
 const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.6)",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
+  overlay: { flex: 1, backgroundColor: colors.overlay, justifyContent: "center", alignItems: "center", padding: spacing.xl },
+  cupom: { backgroundColor: colors.surface, width: "100%", padding: spacing.xl, borderRadius: 8, elevation: 10 },
+  titulo: { textAlign: "center", fontWeight: typography.weights.bold, fontSize: typography.sizes.base, color: colors.text },
+  tracejado: { color: colors.gray300, textAlign: "center", marginVertical: 5 },
+  section: { marginVertical: spacing.md },
+  resumoLabel: { 
+    fontSize: typography.sizes.sm, 
+    color: colors.textSecondary, 
+    marginBottom: 5,
   },
-  cupom: {
-    backgroundColor: "#FFF",
-    width: "100%",
-    padding: 20,
-    borderRadius: 8,
-    elevation: 10,
+  resumoBold: { fontWeight: typography.weights.bold, color: colors.text },
+  totalRow: { 
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    alignItems: "center", 
+    marginTop: spacing.lg,
   },
-  titulo: {
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 16,
-    color: "#333",
+  totalLabel: { 
+    fontSize: typography.sizes.lg, 
+    fontWeight: typography.weights.bold,
   },
-  tracejado: { color: "#ccc", textAlign: "center", marginVertical: 5 },
-  section: { marginVertical: 10 },
-  resumoLabel: { fontSize: 14, color: "#555", marginBottom: 5 },
-  resumoBold: { fontWeight: "bold", color: "#000" },
-  totalRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 15,
+  totalValue: { 
+    fontSize: typography.sizes.xl, 
+    fontWeight: typography.weights.bold, 
+    color: colors.primary,
   },
-  totalLabel: { fontSize: 18, fontWeight: "bold" },
-  totalValue: { fontSize: 20, fontWeight: "bold", color: "#8b5cf6" }, // Cor alterada para o padrão roxo do app
-  buttonRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 25,
-    gap: 10,
+  buttonRow: { 
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    marginTop: spacing['2xl'], 
+    gap: spacing.md,
   },
-  btnCorrigir: {
-    flex: 1,
-    padding: 15,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    alignItems: "center",
+  btnCorrigir: { 
+    flex: 1, 
+    padding: spacing.lg, 
+    borderWidth: 1, 
+    borderColor: colors.gray300, 
+    alignItems: "center", 
     borderRadius: 8,
   },
-  btnConfirmar: {
-    flex: 1,
-    padding: 15,
-    backgroundColor: "#8b5cf6", // Cor alterada para o padrão roxo do app
-    alignItems: "center",
-    borderRadius: 8,
-    minHeight: 50,
-    justifyContent: 'center'
+  btnConfirmar: { 
+    flex: 1, 
+    padding: spacing.lg, 
+    backgroundColor: colors.primary, 
+    alignItems: "center", 
+    borderRadius: 8, 
+    minHeight: 50, 
+    justifyContent: 'center',
   },
-  txtCorrigir: { fontWeight: "bold", color: "#666" },
-  txtConfirmar: { fontWeight: "bold", color: "#FFF" },
+  txtCorrigir: { fontWeight: typography.weights.bold, color: colors.textSecondary },
+  txtConfirmar: { fontWeight: typography.weights.bold, color: colors.white },
 });

@@ -1,6 +1,10 @@
 import { Stack } from 'expo-router';
-import { HeaderFinanceiro } from '../components/header';
 
-export default function Layout() {
-  return <Stack screenOptions={{ headerTitle: "Controle Financeiro" }} />;
+export default function RootLayout() {
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      {/* O (tabs) é tratado como uma única rota aqui */}
+      <Stack.Screen name="(tabs)" />
+    </Stack>
+  );
 }

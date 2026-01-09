@@ -28,6 +28,18 @@
     "scheme": "meu-financeiro",
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "fe8065fb-62cf-40a8-bb11-39490d53939d"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/fe8065fb-62cf-40a8-bb11-39490d53939d"
+    }
   }
 }

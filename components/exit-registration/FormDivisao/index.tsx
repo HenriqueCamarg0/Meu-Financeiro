@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { userService, Usuario } from "../../../services/userService";
+import { colors, typography, spacing } from "../../../utils/designSystem";
 
 interface FormDivisaoProps {
   isParcelado: boolean;
@@ -47,11 +48,11 @@ export default function FormDivisao({
 
   const adicionarUsuario = (user: Usuario) => {
     // Corrigido de userId para id
-    if (!divisoes.find((d) => d.id === user.id)) {
+    if (!divisoes.find((d) => d.id === user.userId)) {
       setDivisoes([
         ...divisoes,
         { 
-          id: user.id, 
+          id: user.userId, 
           nome: `${user.nome} ${user.sobrenome}`, // Corrigido para compor o nome
           valor: "0,00" 
         },
@@ -118,8 +119,8 @@ export default function FormDivisao({
             style={styles.btnSelect}
             onPress={() => setModalVisible(true)}
           >
-            <Ionicons name="people" size={20} color="#8b5cf6" />
-            <Text style={{ marginLeft: 8, fontWeight: "bold", color: "#8b5cf6" }}>
+            <Ionicons name="people" size={20} color={colors.primary} />
+            <Text style={{ marginLeft: 8, fontWeight: "bold", color: colors.primary }}>
               Selecionar Usuários
             </Text>
           </TouchableOpacity>
@@ -135,7 +136,7 @@ export default function FormDivisao({
                     )
                   }
                 >
-                  <Ionicons name="close-circle" size={22} color="#ef4444" />
+                  <Ionicons name="close-circle" size={22} color={colors.error} />
                 </TouchableOpacity>
               </View>
               <TextInput
@@ -150,11 +151,11 @@ export default function FormDivisao({
           <View
             style={[
               styles.totalRow,
-              !isValido && divisoes.length > 0 && { borderColor: "#ef4444", borderWidth: 1.5 },
+              !isValido && divisoes.length > 0 && { borderColor: colors.error, borderWidth: 1.5 },
             ]}
           >
             <Text style={styles.totalLabel}>Total das divisões:</Text>
-            <Text style={[styles.totalValue, !isValido && divisoes.length > 0 && { color: "#ef4444" }]}>
+            <Text style={[styles.totalValue, !isValido && divisoes.length > 0 && { color: colors.error }]}>
               R${" "}
               {totalSoma.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
             </Text>
@@ -171,7 +172,7 @@ export default function FormDivisao({
             <Text style={styles.modalTitle}>Selecione o Usuário</Text>
             <FlatList
               data={usuariosAPI}
-              keyExtractor={(item) => item.id} // Corrigido para id
+              keyExtractor={(item) => item.userId} // Corrigido para id
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={styles.item}
@@ -196,92 +197,99 @@ export default function FormDivisao({
 
 const styles = StyleSheet.create({
   container: { padding: 5 },
-  label: { fontSize: 13, fontWeight: "bold", color: "#555" },
-  radioGroup: { flexDirection: "row", gap: 20, marginTop: 10 },
+  label: { 
+    fontSize: typography.sizes.sm, 
+    fontWeight: typography.weights.bold, 
+    color: colors.text,
+  },
+  radioGroup: { flexDirection: "row", gap: spacing.xl, marginTop: spacing.md },
   radioButton: { flexDirection: "row", alignItems: "center" },
   circle: {
     width: 18,
     height: 18,
     borderRadius: 9,
     borderWidth: 2,
-    borderColor: "#8b5cf6",
-    marginRight: 8,
+    borderColor: colors.primary,
+    marginRight: spacing.sm,
   },
-  checked: { backgroundColor: "#8b5cf6" },
-  radioText: { fontSize: 14, color: "#4b5563" },
+  checked: { backgroundColor: colors.primary },
+  radioText: { 
+    fontSize: typography.sizes.sm, 
+    color: colors.textSecondary,
+  },
   alvoBox: {
-    backgroundColor: "#f3f0ff",
-    padding: 12,
+    backgroundColor: colors.primary + '10',
+    padding: spacing.md,
     borderRadius: 8,
-    marginBottom: 12,
+    marginBottom: spacing.md,
     borderWidth: 1,
-    borderColor: "#ddd6fe",
+    borderColor: colors.primary + '30',
   },
-  alvoText: { fontSize: 13, color: "#7c3aed", fontWeight: "bold" },
+  alvoText: { fontSize: 13, color: colors.primary, fontWeight: typography.weights.bold },
   btnSelect: {
     flexDirection: "row",
-    padding: 12,
+    padding: spacing.md,
     borderWidth: 1,
-    borderColor: "#8b5cf6",
+    borderColor: colors.primary,
     borderRadius: 12,
     justifyContent: "center",
-    backgroundColor: "#fff",
+    backgroundColor: colors.surface,
     borderStyle: 'dashed'
   },
   card: {
-    backgroundColor: "#fff",
-    padding: 12,
+    backgroundColor: colors.surface,
+    padding: spacing.md,
     borderRadius: 12,
-    marginTop: 10,
+    marginTop: spacing.sm,
     borderWidth: 1,
-    borderColor: "#e5e7eb",
+    borderColor: colors.gray200,
     elevation: 2,
   },
   cardHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: 'center' },
-  userName: { fontWeight: "bold", fontSize: 14, color: '#1f2937' },
+  userName: { fontWeight: typography.weights.bold, fontSize: typography.sizes.sm, color: colors.text },
   input: {
     borderBottomWidth: 1,
-    borderBottomColor: "#8b5cf6",
-    padding: 8,
-    fontSize: 18,
+    borderBottomColor: colors.primary,
+    padding: spacing.sm,
+    fontSize: typography.sizes.xl,
     marginTop: 5,
-    color: '#1f2937',
-    fontWeight: '500'
+    color: colors.text,
+    fontWeight: typography.weights.medium
   },
   totalRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 15,
-    padding: 15,
-    backgroundColor: "#f9fafb",
+    marginTop: spacing.lg,
+    padding: spacing.lg,
+    backgroundColor: colors.gray50,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: "#e5e7eb",
+    borderColor: colors.gray200,
   },
-  totalLabel: { color: '#6b7280', fontSize: 13 },
-  totalValue: { fontWeight: "bold", fontSize: 15, color: '#111827' },
-  errorText: { color: '#ef4444', fontSize: 11, marginTop: 5, textAlign: 'right', fontWeight: '500' },
+  totalLabel: { color: colors.textSecondary, fontSize: 13 },
+  totalValue: { fontWeight: typography.weights.bold, fontSize: typography.sizes.lg, color: colors.text },
+  errorText: { color: colors.error, fontSize: 11, marginTop: 5, textAlign: 'right', fontWeight: typography.weights.medium },
   modal: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: colors.overlay,
     justifyContent: "center",
     padding: 25,
   },
   modalContent: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.surface,
     borderRadius: 20,
-    padding: 20,
+    padding: spacing.xl,
     maxHeight: "70%",
   },
-  modalTitle: { fontSize: 16, fontWeight: 'bold', marginBottom: 15, color: '#111827', textAlign: 'center' },
-  item: { padding: 18, borderBottomWidth: 1, borderBottomColor: "#f3f4f6" },
-  itemText: { fontSize: 15, color: '#374151' },
+  modalTitle: { fontSize: typography.sizes.base, fontWeight: typography.weights.bold, marginBottom: spacing.lg, color: colors.text, textAlign: 'center' },
+  item: { padding: spacing.xl, borderBottomWidth: 1, borderBottomColor: colors.gray100 },
+  itemText: { fontSize: typography.sizes.lg, color: colors.text },
   btnFechar: {
-    marginTop: 15,
-    padding: 15,
+    marginTop: spacing.lg,
+    padding: spacing.lg,
     alignItems: "center",
-    backgroundColor: "#f3f4f6",
+    backgroundColor: colors.gray100,
     borderRadius: 12,
   },
-  btnFecharText: { color: '#6b7280', fontWeight: '600' }
+  btnFecharText: { color: colors.textSecondary, fontWeight: typography.weights.semibold }
 });

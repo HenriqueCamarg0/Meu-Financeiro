@@ -1,15 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { View, TouchableOpacity, Text, Alert } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context'; // Correção do Warning
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { styles } from './styles';
 import UserForm from './UserForm';
 import UserList from './UserList';
 import { userService, Usuario } from '../../services/userService';
-
-interface Props {
-  onClose: () => void;
-}
+import { colors, typography, spacing } from '../../utils/designSystem';
 
 interface UserRegistrationProps {
   onClose: () => void;
@@ -34,15 +30,10 @@ export default function UserRegistration({ onClose }: UserRegistrationProps) {
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      <View style={{ 
-        flexDirection: 'row', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
-        marginBottom: 20 
-      }}>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#333' }}>Configurar Usuários</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Configurar Usuários</Text>
         <TouchableOpacity onPress={onClose}>
-          <Ionicons name="close-circle" size={32} color="#9ca3af" />
+          <Ionicons name="close-circle" size={32} color={colors.gray400} />
         </TouchableOpacity>
       </View>
 
@@ -51,3 +42,21 @@ export default function UserRegistration({ onClose }: UserRegistrationProps) {
     </SafeAreaView>
   );
 }
+
+const styles = {
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+    padding: spacing.lg,
+  },
+  header: {
+    flexDirection: 'row' as const,
+    justifyContent: 'space-between' as const,
+    alignItems: 'center' as const,
+    marginBottom: spacing.xl,
+  },
+  title: {
+    ...typography.styles.h3,
+    color: colors.text,
+  },
+};

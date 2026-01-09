@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, Switch, Modal, TouchableOpacity } from 'react-native';
 import { Cartao } from '../../../services/cartoesService';
 import { Ionicons } from '@expo/vector-icons';
+import { colors, spacing, typography } from '../../../utils/designSystem';
 
 interface CardListProps {
   cartoes: Cartao[];
@@ -45,14 +46,14 @@ export default function CardList({ cartoes, onToggleStatus }: CardListProps) {
               </Text>
             </View>
             <View style={styles.actionCol}>
-              <Text style={[styles.statusText, { color: item.ativo ? '#2E7D32' : '#C62828' }]}>
+              <Text style={[styles.statusText, { color: item.ativo ? colors.success : colors.error }]}>
                 {item.ativo ? 'ATIVO' : 'INATIVO'}
               </Text>
               <Switch
                 value={item.ativo}
                 onValueChange={(val) => confirmarMudancaStatus(item.cartaoId, item.nomeCartao, val)}
-                trackColor={{ false: "#ccc", true: "#e67e22" }}
-                thumbColor={item.ativo ? "#FFF" : "#f4f3f4"}
+                trackColor={{ false: colors.gray300, true: colors.secondary }}
+                thumbColor={item.ativo ? colors.white : colors.gray100}
               />
             </View>
           </View>
@@ -75,7 +76,7 @@ export default function CardList({ cartoes, onToggleStatus }: CardListProps) {
               <Ionicons 
                 name={cartaoSelecionado?.novoStatus ? "checkmark-circle" : "close-circle"} 
                 size={50} 
-                color={cartaoSelecionado?.novoStatus ? "#2E7D32" : "#C62828"} 
+                color={cartaoSelecionado?.novoStatus ? colors.success : colors.error} 
               />
               <Text style={styles.modalTitle}>Confirmar Alteração</Text>
             </View>
@@ -114,36 +115,36 @@ const styles = StyleSheet.create({
   container: { marginTop: 5 },
   cardItem: { 
     flexDirection: 'row', 
-    backgroundColor: '#fff', 
-    padding: 12, 
+    backgroundColor: colors.surface, 
+    padding: spacing.md, 
     borderRadius: 8, 
-    marginBottom: 8, 
+    marginBottom: spacing.sm, 
     borderWidth: 1, 
-    borderColor: '#eee',
+    borderColor: colors.gray200,
     alignItems: 'center'
   },
   infoCol: { flex: 1 },
   actionCol: { alignItems: 'center', minWidth: 60 },
-  cardName: { fontSize: 15, fontWeight: 'bold', color: '#333' },
-  cardDetails: { fontSize: 12, color: '#777', marginTop: 2 },
-  statusText: { fontSize: 9, fontWeight: 'bold', marginBottom: 2 },
-  empty: { textAlign: 'center', color: '#999', marginVertical: 20 },
+  cardName: { fontSize: typography.sizes.lg, fontWeight: typography.weights.bold, color: colors.text },
+  cardDetails: { fontSize: typography.sizes.xs, color: colors.textSecondary, marginTop: 2 },
+  statusText: { fontSize: 9, fontWeight: typography.weights.bold, marginBottom: 2 },
+  empty: { textAlign: 'center', color: colors.textLight, marginVertical: spacing.xl },
   // Estilos do Modal
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    backgroundColor: colors.overlay,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20
+    padding: spacing.xl
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderRadius: 20,
-    padding: 25,
+    padding: spacing['2xl'],
     width: '100%',
     maxWidth: 350,
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 10,
@@ -151,51 +152,51 @@ const styles = StyleSheet.create({
   },
   modalHeader: {
     alignItems: 'center',
-    marginBottom: 15
+    marginBottom: spacing.lg
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginTop: 10,
+    fontSize: typography.sizes['3xl'],
+    fontWeight: typography.weights.bold,
+    color: colors.text,
+    marginTop: spacing.sm,
     textAlign: 'center'
   },
   modalMessage: {
-    fontSize: 15,
-    color: '#666',
+    fontSize: typography.sizes.lg,
+    color: colors.textSecondary,
     textAlign: 'center',
-    marginBottom: 25,
+    marginBottom: spacing['2xl'],
     lineHeight: 22
   },
   modalButtons: {
     flexDirection: 'row',
     width: '100%',
-    gap: 12
+    gap: spacing.md
   },
   modalButton: {
     flex: 1,
-    paddingVertical: 14,
-    paddingHorizontal: 20,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.xl,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center'
   },
   modalButtonCancel: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.gray100,
     borderWidth: 1,
-    borderColor: '#ddd'
+    borderColor: colors.gray300
   },
   modalButtonConfirm: {
-    backgroundColor: '#e67e22'
+    backgroundColor: colors.secondary
   },
   modalButtonTextCancel: {
-    color: '#666',
-    fontWeight: 'bold',
-    fontSize: 15
+    color: colors.textSecondary,
+    fontWeight: typography.weights.bold,
+    fontSize: typography.sizes.lg
   },
   modalButtonTextConfirm: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 15
+    color: colors.white,
+    fontWeight: typography.weights.bold,
+    fontSize: typography.sizes.lg
   }
 });

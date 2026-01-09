@@ -4,6 +4,7 @@ import FormInfo from './FormInfo';
 import FormVencimento from './FormVencimento';
 import CardList from './CardList';
 import { cartaoService, Cartao } from '../../services/cartoesService';
+import { colors, spacing, typography } from '../../utils/designSystem';
 
 export default function CardRegistration() {
   // Estados para controle de navegação e dados
@@ -138,7 +139,7 @@ export default function CardRegistration() {
           {etapa === 0 && (
             <>
               {loading && cartoes.length === 0 ? (
-                <ActivityIndicator size="large" color="#e67e22" style={{ marginVertical: 20 }} />
+                <ActivityIndicator size="large" color={colors.secondary} style={{ marginVertical: spacing.xl }} />
               ) : (
                 <CardList cartoes={cartoes} onToggleStatus={alternarStatusCartao} />
               )}
@@ -178,7 +179,7 @@ export default function CardRegistration() {
                 disabled={loading}
               >
                 {loading ? (
-                  <ActivityIndicator color="#FFF" />
+                  <ActivityIndicator color={colors.white} />
                 ) : (
                   <Text style={styles.txtProximo}>
                     {etapa === 2 ? 'Finalizar Cadastro' : 'Próximo'}
@@ -195,51 +196,51 @@ export default function CardRegistration() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: 'transparent' },
-  scrollContent: { paddingBottom: 30 },
+  scrollContent: { paddingBottom: spacing['2xl'] },
   cardCentral: { 
-    backgroundColor: '#FFF', 
+    backgroundColor: colors.surface, 
     borderRadius: 15, 
-    padding: 20,
+    padding: spacing.xl,
     minHeight: 300 
   },
   title: { 
-    fontSize: 18, 
-    fontWeight: 'bold', 
-    color: '#333', 
-    marginBottom: 20, 
+    fontSize: typography.sizes.xl, 
+    fontWeight: typography.weights.bold, 
+    color: colors.text, 
+    marginBottom: spacing.xl, 
     textAlign: 'center' 
   },
   btnNovo: { 
-    backgroundColor: '#e67e22', 
-    padding: 16, 
+    backgroundColor: colors.secondary, 
+    padding: spacing.lg, 
     borderRadius: 10, 
     alignItems: 'center', 
-    marginTop: 20,
+    marginTop: spacing.xl,
     elevation: 2
   },
-  txtNovo: { color: '#FFF', fontWeight: 'bold', fontSize: 14 },
+  txtNovo: { color: colors.white, fontWeight: typography.weights.bold, fontSize: typography.sizes.sm },
   footer: { 
     flexDirection: 'row', 
     justifyContent: 'space-between', 
-    marginTop: 30, 
-    gap: 12 
+    marginTop: spacing['2xl'], 
+    gap: spacing.md 
   },
   btnVoltar: { 
     flex: 1, 
-    padding: 16, 
+    padding: spacing.lg, 
     borderRadius: 10, 
     borderWidth: 1, 
-    borderColor: '#ddd', 
+    borderColor: colors.gray300, 
     alignItems: 'center' 
   },
   btnProximo: { 
     flex: 2, 
-    padding: 16, 
+    padding: spacing.lg, 
     borderRadius: 10, 
-    backgroundColor: '#e67e22', 
+    backgroundColor: colors.secondary, 
     alignItems: 'center',
     elevation: 2
   },
-  txtVoltar: { color: '#666', fontWeight: 'bold' },
-  txtProximo: { color: '#FFF', fontWeight: 'bold' }
+  txtVoltar: { color: colors.textSecondary, fontWeight: typography.weights.bold },
+  txtProximo: { color: colors.white, fontWeight: typography.weights.bold }
 });

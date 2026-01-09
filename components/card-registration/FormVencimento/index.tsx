@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { colors, spacing, typography } from '../../../utils/designSystem';
 
 export default function FormVencimento({ onDataChange, valores }: any) {
   return (
@@ -36,15 +37,15 @@ export default function FormVencimento({ onDataChange, valores }: any) {
 }
 
 const styles = StyleSheet.create({
-  container: { marginTop: 10 },
-  field: { marginBottom: 20 },
-  label: { fontSize: 14, fontWeight: 'bold', color: '#333', marginBottom: 8 },
-  input: { borderWidth: 1, borderColor: '#ddd', borderRadius: 8, padding: 12, fontSize: 16, backgroundColor: '#fff' },
-  hint: { fontSize: 12, color: '#999', marginTop: 4 },
-  previewCard: { marginTop: 20, alignItems: 'center' },
-  previewTitle: { fontSize: 13, color: '#666', marginBottom: 10, fontWeight: 'bold' },
-  cardVisual: { backgroundColor: '#2c3e50', width: '90%', height: 150, borderRadius: 15, padding: 20, justifyContent: 'space-between', elevation: 5 },
-  cardName: { color: '#FFF', fontSize: 18, fontWeight: 'bold', textTransform: 'uppercase' },
-  cardNumber: { color: '#FFF', fontSize: 16, letterSpacing: 2 },
-  cardDate: { color: '#bdc3c7', fontSize: 14 }
+  container: { marginTop: spacing.sm },
+  field: { marginBottom: spacing.xl },
+  label: { fontSize: typography.sizes.sm, fontWeight: typography.weights.bold, color: colors.text, marginBottom: spacing.sm },
+  input: { borderWidth: 1, borderColor: colors.gray300, borderRadius: 8, padding: spacing.md, fontSize: typography.sizes.base, backgroundColor: colors.surface },
+  hint: { fontSize: typography.sizes.xs, color: colors.textLight, marginTop: 4 },
+  previewCard: { marginTop: spacing.xl, alignItems: 'center' },
+  previewTitle: { fontSize: typography.sizes.xs, color: colors.textSecondary, marginBottom: spacing.sm, fontWeight: typography.weights.bold },
+  cardVisual: { backgroundColor: colors.gray800, width: '90%', height: 150, borderRadius: 15, padding: spacing.xl, justifyContent: 'space-between', elevation: 5 },
+  cardName: { color: colors.white, fontSize: typography.sizes.xl, fontWeight: typography.weights.bold, textTransform: 'uppercase' },
+  cardNumber: { color: colors.white, fontSize: typography.sizes.base, letterSpacing: 2 },
+  cardDate: { color: colors.gray300, fontSize: typography.sizes.sm }
 });

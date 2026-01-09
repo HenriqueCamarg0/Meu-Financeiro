@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { styles } from '../styles';
 import { userService } from '../../../services/userService';
+import { colors } from '../../../utils/designSystem';
 
 export default function UserForm({ aoSucesso }: { aoSucesso: () => void }) {
   const [nome, setNome] = useState('');
@@ -28,7 +29,7 @@ export default function UserForm({ aoSucesso }: { aoSucesso: () => void }) {
       <TextInput style={styles.input} value={sobrenome} onChangeText={setSobrenome} placeholder="Digite o sobrenome..." />
 
       <TouchableOpacity style={styles.btnSalvar} onPress={handleAdd} disabled={loading}>
-        {loading ? <ActivityIndicator color="#FFF" /> : <Text style={styles.btnSalvarText}>+ Adicionar Usuário</Text>}
+        {loading ? <ActivityIndicator color={colors.white} /> : <Text style={styles.btnSalvarText}>+ Adicionar Usuário</Text>}
       </TouchableOpacity>
     </View>
   );
